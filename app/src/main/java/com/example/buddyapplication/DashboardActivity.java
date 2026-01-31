@@ -30,7 +30,7 @@ public class DashboardActivity extends AppCompatActivity {
         );
 
         btnComingSoonReport.setOnClickListener(v ->
-                Toast.makeText(this, "Coming soon: Graph report screen", Toast.LENGTH_SHORT).show()
+                startActivity(new Intent(this, GraphActivity.class))
         );
 
         btnLogout.setOnClickListener(v -> {
