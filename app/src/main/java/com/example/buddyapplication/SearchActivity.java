@@ -1,6 +1,7 @@
 package com.example.buddyapplication;
 
 import android.app.AlertDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -9,6 +10,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.ArrayList;
@@ -26,6 +29,8 @@ public class SearchActivity extends AppCompatActivity {
     ArrayList<String> displayList = new ArrayList<>();
     ArrayAdapter<String> adapter;
 
+    ActivityResultLauncher<Intent> editFriendLauncher;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,6 +47,17 @@ public class SearchActivity extends AppCompatActivity {
         adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, displayList);
         listResults.setAdapter(adapter);
 
+        loadAllFriends();
+
+        editFriendLauncher = registerForActivityResult(
+                new ActivityResultContracts.StartActivityForResult(),
+                result -> {
+                    if (result.getResultCode() == RESULT_OK) {
+                        doSearch();
+                    }
+                }
+        );
+
         btnSearch.setOnClickListener(v -> doSearch());
 
         btnBack.setOnClickListener(v -> finish());
@@ -56,7 +72,7 @@ public class SearchActivity extends AppCompatActivity {
         String keyword = etKeyword.getText().toString().trim();
 
         if (keyword.isEmpty()) {
-            Toast.makeText(this, "Enter name or phone to search", Toast.LENGTH_SHORT).show();
+            loadAllFriends();
             return;
         }
 
@@ -66,7 +82,21 @@ public class SearchActivity extends AppCompatActivity {
         for (friend f : friendResults) {
             // Simple one-line display
             displayList.add(
-                    f.name + " | " + f.phone + " | " + f.gender + " | " + f.state
+                    f.name + " | " + f.phone + " | " + f.gender + " | " + f.addr4
+            );
+        }
+
+        adapter.notifyDataSetChanged();
+        tvResultCount.setText("Results: " + friendResults.size());
+    }
+
+    private void loadAllFriends() {
+        friendResults = db.getAllFriend();
+
+        displayList.clear();
+        for (friend f : friendResults) {
+            displayList.add(
+                    f.name + " | " + f.phone + " | " + f.gender + " | " + f.addr4
             );
         }
 
@@ -86,13 +116,18 @@ public class SearchActivity extends AppCompatActivity {
                         "Gender: " + f.gender + "\n" +
                         "Phone: " + f.phone + "\n" +
                         "Email: " + f.email + "\n\n" +
-                        "Address:\n" + address + "\n\n" +
-                        "State: " + f.state;
+                        "Address:\n" + address;
+//                        "State: " + f.state;
 
         new AlertDialog.Builder(this)
                 .setTitle("Friend Details")
                 .setMessage(msg)
-                .setPositiveButton("OK", null)
+                .setPositiveButton("EDIT", (dialog, which) -> {
+                    Intent intent = new Intent(SearchActivity.this, EditFriend.class);
+                    intent.putExtra("friend_id", f.id);
+                    editFriendLauncher.launch(intent);
+                })
+                .setNegativeButton("OK", null)
                 .show();
     }
 }

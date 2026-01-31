@@ -12,6 +12,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.BuddyApplication">
         <activity
+            android:name=".EditFriend"
+            android:exported="false" />
+        <activity
             android:name=".AddFriend"
             android:exported="false" />
         <activity

@@ -19,7 +19,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        String createUser = "CREATE TABLE Users (" +
+        String createUser = "CREATE TABLE users (" +
                 "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 "username TEXT, " +
                 "password TEXT)";
@@ -27,7 +27,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         String createFriend = "CREATE TABLE friends (" +
                 "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 "name TEXT, gender TEXT, phone TEXT, email TEXT, " +
-                "addr1 TEXT, addr2 TEXT, addr3 TEXT, addr4 TEXT, state TEXT)";
+                "addr1 TEXT, addr2 TEXT, addr3 TEXT, addr4 TEXT, photo_uri TEXT)";
 
         db.execSQL(createUser);
         db.execSQL(createFriend);
@@ -85,10 +85,37 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         cv.put("addr2", f.addr2);
         cv.put("addr3", f.addr3);
         cv.put("addr4", f.addr4);
-        cv.put("state", f.state);
+        cv.put("photo_uri", f.photo_uri);
+//        cv.put("state", f.state);
 
         long result = db.insert("friends", null, cv);
         return result != -1;
+    }
+
+    public friend getFriendById(int id){
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor c = db.rawQuery(
+                "SELECT * FROM friends WHERE id=?",
+                new String[]{String.valueOf(id)}
+        );
+
+        friend f = null;
+        if (c.moveToFirst()){
+            f = new friend();
+            f.id = c.getInt(0);
+            f.name = c.getString(1);
+            f.gender = c.getString(2);
+            f.phone = c.getString(3);
+            f.email = c.getString(4);
+            f.addr1 = c.getString(5);
+            f.addr2 = c.getString(6);
+            f.addr3 = c.getString(7);
+            f.addr4 = c.getString(8);
+            f.photo_uri = c.getString(9);
+//            f.state = c.getString(9);
+        }
+        c.close();
+        return f;
     }
 
     public ArrayList<friend> getAllFriend() {
@@ -108,7 +135,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 f.addr2 = c.getString(6);
                 f.addr3 = c.getString(7);
                 f.addr4 = c.getString(8);
-                f.state = c.getString(9);
+//                f.state = c.getString(9);
 
                 list.add(f);
             } while (c.moveToNext());
@@ -129,7 +156,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         cv.put("addr2", f.addr2);
         cv.put("addr3", f.addr3);
         cv.put("addr4", f.addr4);
-        cv.put("state", f.state);
+//        cv.put("state", f.state);
 
         int result = db.update("friends", cv, "id=?", new String[]{String.valueOf(f.id)});
         return result > 0;
@@ -162,7 +189,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 f.addr2 = c.getString(6);
                 f.addr3 = c.getString(7);
                 f.addr4 = c.getString(8);
-                f.state = c.getString(9);
+//                f.state = c.getString(9);
 
                 list.add(f);
             } while (c.moveToNext());
