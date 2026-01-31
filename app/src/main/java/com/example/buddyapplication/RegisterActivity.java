@@ -13,7 +13,7 @@ import androidx.core.view.WindowInsetsCompat;
 
 public class RegisterActivity extends AppCompatActivity {
 
-    EditText etUser, etPass, etConfirm;
+    EditText etUser, etPass, etConfirm, etSecurity;
     Button btnRegister;
     DatabaseHelper db;
 
@@ -26,6 +26,8 @@ public class RegisterActivity extends AppCompatActivity {
         etPass = findViewById(R.id.etRegPassword);
         etConfirm = findViewById(R.id.etRegConfirm);
         btnRegister = findViewById(R.id.btnRegister);
+        etSecurity = findViewById(R.id.etRegSecurity);
+
 
         db = new DatabaseHelper(this);
 
@@ -33,8 +35,9 @@ public class RegisterActivity extends AppCompatActivity {
             String u = etUser.getText().toString().trim();
             String p = etPass.getText().toString().trim();
             String c = etConfirm.getText().toString().trim();
+            String s = etSecurity.getText().toString().trim();
 
-            if (u.isEmpty() || p.isEmpty() || c.isEmpty()) {
+            if (u.isEmpty() || p.isEmpty() || c.isEmpty() || s.isEmpty()) {
                 Toast.makeText(this, "Please fill all fields", Toast.LENGTH_SHORT).show();
                 return;
             }
@@ -44,7 +47,7 @@ public class RegisterActivity extends AppCompatActivity {
                 return;
             }
 
-            if (db.registerUser(u, p)) {
+            if (db.registerUser(u, p, s)) {
                 Toast.makeText(this, "Registration Successful", Toast.LENGTH_SHORT).show();
                 finish();
             } else {
@@ -53,3 +56,6 @@ public class RegisterActivity extends AppCompatActivity {
         });
     }
 }
+
+
+

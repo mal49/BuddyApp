@@ -11,7 +11,7 @@ import java.util.ArrayList;
 public class DatabaseHelper extends SQLiteOpenHelper {
 
     private static String DATABASE_NAME = "buddy.db";
-    private static  int DATABASE_VERSION = 1;
+    private static  int DATABASE_VERSION = 2;
 
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -22,7 +22,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         String createUser = "CREATE TABLE users (" +
                 "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 "username TEXT, " +
-                "password TEXT)";
+                "password TEXT, " +
+                "security_answer TEXT)";
 
         String createFriend = "CREATE TABLE friends (" +
                 "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
@@ -40,7 +41,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    public boolean registerUser(String username, String password) {
+    public boolean registerUser(String username, String password, String securityAnswer) {
         SQLiteDatabase db = this.getWritableDatabase();
 
         Cursor c = db.rawQuery("SELECT * FROM users WHERE username=?",
@@ -55,10 +56,24 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         ContentValues cv = new ContentValues();
         cv.put("username", username);
         cv.put("password", password);
+        cv.put("security_answer", securityAnswer);
 
         long result = db.insert("users", null, cv);
         return result != -1;
     }
+
+    public boolean checkSecurityAnswer(String username, String answer) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor c = db.rawQuery(
+                "SELECT * FROM users WHERE username=? AND security_answer=?",
+                new String[]{username, answer}
+        );
+
+        boolean result = c.getCount() > 0;
+        c.close();
+        return result;
+    }
+
 
     public boolean checkOldPassword(String username, String oldPassword) {
         SQLiteDatabase db = this.getReadableDatabase();
@@ -226,3 +241,5 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
 }
+
+

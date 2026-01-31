@@ -16,7 +16,7 @@ public class LoginActivity extends AppCompatActivity {
     EditText etUsername, etPassword;
     Button btnLogin;
 
-    TextView tvRegister;
+    TextView tvRegister, tvForgotPassword;
     DatabaseHelper db;
 
     @Override
@@ -28,6 +28,7 @@ public class LoginActivity extends AppCompatActivity {
         etPassword = findViewById(R.id.etPassword);
         tvRegister = findViewById(R.id.tvRegister);
         btnLogin = findViewById(R.id.btnLogin);
+        tvForgotPassword = findViewById(R.id.tvForgotPassword);
 
         db = new DatabaseHelper(this);
         db.insertDefaultUser();
@@ -52,6 +53,10 @@ public class LoginActivity extends AppCompatActivity {
 
         tvRegister.setOnClickListener(v -> {
             startActivity(new Intent(this, RegisterActivity.class));
+        });
+
+        tvForgotPassword.setOnClickListener(v -> {
+            startActivity(new Intent(this, ForgotPassword.class));
         });
     }
 
