@@ -9,7 +9,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class DashboardActivity extends AppCompatActivity {
 
-    Button btnSearchFriend, btnComingSoonCrud, btnComingSoonReport, btnLogout;
+    Button btnSearchFriend, addFriend, btnComingSoonReport, btnLogout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -17,7 +17,7 @@ public class DashboardActivity extends AppCompatActivity {
         setContentView(R.layout.activity_dashboard);
 
         btnSearchFriend = findViewById(R.id.btnSearchFriend);
-        btnComingSoonCrud = findViewById(R.id.btnManage);
+        addFriend = findViewById(R.id.btnManage);
         btnComingSoonReport = findViewById(R.id.btnReport);
         btnLogout = findViewById(R.id.btnLogout);
 
@@ -25,8 +25,8 @@ public class DashboardActivity extends AppCompatActivity {
                 startActivity(new Intent(this, SearchActivity.class))
         );
 
-        btnComingSoonCrud.setOnClickListener(v ->
-                Toast.makeText(this, "Coming soon: CRUDS screen", Toast.LENGTH_SHORT).show()
+        addFriend.setOnClickListener(v ->
+                startActivity(new Intent(this, AddFriend.class))
         );
 
         btnComingSoonReport.setOnClickListener(v ->
