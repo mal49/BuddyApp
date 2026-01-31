@@ -127,7 +127,28 @@ public class SearchActivity extends AppCompatActivity {
                     intent.putExtra("friend_id", f.id);
                     editFriendLauncher.launch(intent);
                 })
+                .setNeutralButton("DELETE", (dialog, which) -> {
+                    confirmDeleteFriend(f);
+                })
                 .setNegativeButton("OK", null)
                 .show();
     }
+    private void confirmDeleteFriend(friend f) {
+        new AlertDialog.Builder(this)
+                .setTitle("Delete Friend")
+                .setMessage("Are you sure you want to delete " + f.name + "?")
+                .setPositiveButton("DELETE", (d, w) -> {
+                    boolean ok = db.deleteFriend(f);
+
+                    if (ok) {
+                        Toast.makeText(this, "Friend deleted", Toast.LENGTH_SHORT).show();
+                        doSearch(); // refresh list (keeps current keyword)
+                    } else {
+                        Toast.makeText(this, "Failed to delete friend", Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .setNegativeButton("CANCEL", null)
+                .show();
+    }
+
 }

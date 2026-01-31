@@ -2,4 +2,13 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="tortilla">#9A7B4F</color>
+    <color name="peanut">#795C34</color>
+    <color name="coffee">#4B371C</color>
+    <color name="penny">#522915</color>
+
+    <color name="bg_warm">#F6F1EA</color>
+    <color name="surface_warm">#FFF8F1</color>
+    <color name="text_primary">#2C1B12</color>
+    <color name="text_muted">#6A4F3A</color>
 </resources>
