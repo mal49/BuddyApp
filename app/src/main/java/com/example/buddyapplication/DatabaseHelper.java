@@ -199,6 +199,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         cv.put("addr2", f.addr2);
         cv.put("addr3", f.addr3);
         cv.put("addr4", f.addr4);
+        cv.put("photo_uri", f.photo_uri);
 //        cv.put("state", f.state);
 
         int result = db.update("friends", cv, "id=?", new String[]{String.valueOf(f.id)});
