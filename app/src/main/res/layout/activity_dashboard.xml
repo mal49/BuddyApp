@@ -3,74 +3,173 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/bg_warm"
-    android:fillViewport="true">
+    android:background="#F6F1E9">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="20dp">
+        android:orientation="vertical">
 
-        <TextView
-            android:layout_width="wrap_content"
+        <!-- ===== HEADER ===== -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="240dp"
+            android:background="@drawable/header_bg"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="24dp">
+
+            <ImageView
+                android:layout_width="130dp"
+                android:layout_height="130dp"
+                android:src="@drawable/buddy_app_logo"
+                android:scaleType="fitCenter"/>
+
+            <TextView
+                android:text="BuddyApp"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:textColor="#FFFFFF"
+                android:textSize="26sp"
+                android:textStyle="bold"
+                android:layout_marginTop="8dp"/>
+
+            <TextView
+                android:text="Stay connected, stay close."
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:textColor="#EDE7DC"
+                android:textSize="14sp"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Dashboard"
-            android:textSize="26sp"
-            android:textStyle="bold"
-            android:textColor="@color/text_primary"
-            android:layout_marginBottom="18dp" />
+            android:padding="20dp"
+            android:orientation="vertical">
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btnSearchFriend"
-            android:layout_width="match_parent"
-            android:layout_height="56dp"
-            android:text="Search Friend"
-            android:textAllCaps="false"
-            android:textStyle="bold"
-            android:textColor="@color/white"
-            app:backgroundTint="@color/peanut"
-            app:cornerRadius="18dp"
-            app:elevation="3dp" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btnManage"
-            android:layout_width="match_parent"
-            android:layout_height="56dp"
-            android:text="Add Friends"
-            android:textAllCaps="false"
-            android:textStyle="bold"
-            android:textColor="@color/white"
-            app:backgroundTint="@color/peanut"
-            app:cornerRadius="18dp"
-            android:layout_marginTop="12dp"
-            app:elevation="3dp" />
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="150dp"
+                    android:layout_weight="1"
+                    android:layout_marginEnd="12dp"
+                    android:background="@drawable/card_soft"
+                    android:gravity="center"
+                    android:orientation="vertical">
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btnReport"
-            android:layout_width="match_parent"
-            android:layout_height="56dp"
-            android:text="Graph (State / Gender)"
-            android:textAllCaps="false"
-            android:textStyle="bold"
-            android:textColor="@color/white"
-            app:backgroundTint="@color/coffee"
-            app:cornerRadius="18dp"
-            android:layout_marginTop="12dp"
-            app:elevation="3dp" />
+                    <ImageView
+                        android:src="@android:drawable/ic_menu_search"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"/>
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btnLogout"
-            android:layout_width="match_parent"
-            android:layout_height="56dp"
-            android:text="Logout"
-            android:textAllCaps="false"
-            android:textStyle="bold"
-            android:textColor="@color/white"
-            app:backgroundTint="@color/penny"
-            app:cornerRadius="18dp"
-            android:layout_marginTop="18dp"
-            app:elevation="2dp" />
+                    <Button
+                        android:layout_height="50dp"
+                        android:layout_width="wrap_content"
+                        android:id="@+id/btnSearchFriend"
+                        android:text="Search Friend"
+                        android:textColor="@color/black"
+                        android:background="@android:color/transparent"
+                        android:textStyle="bold"/>
+                </LinearLayout>
 
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="150dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/card_soft"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:src="@android:drawable/ic_input_add"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"/>
+
+                    <Button
+                        android:id="@+id/btnManage"
+                        android:layout_height="50dp"
+                        android:layout_width="wrap_content"
+                        android:text="Add Friend"
+                        android:textColor="@color/black"
+                        android:background="@android:color/transparent"
+                        android:textStyle="bold"/>
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="14dp"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="150dp"
+                    android:layout_weight="1"
+                    android:layout_marginEnd="12dp"
+                    android:background="@drawable/card_soft"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:src="@android:drawable/ic_menu_sort_by_size"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"/>
+
+                    <Button
+                        android:id="@+id/btnReport"
+                        android:layout_height="50dp"
+                        android:layout_width="wrap_content"
+                        android:text="Graph Report"
+                        android:textColor="@color/black"
+                        android:background="@android:color/transparent"
+                        android:textStyle="bold"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="150dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/card_soft"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:src="@android:drawable/ic_lock_power_off"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"/>
+
+                    <Button
+                        android:id="@+id/btnLogout"
+                        android:layout_height="50dp"
+                        android:layout_width="wrap_content"
+                        android:text="Logout"
+                        android:textColor="@color/black"
+                        android:background="@android:color/transparent"
+                        android:textStyle="bold"/>
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="70dp"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/card_soft"
+                android:gravity="center_vertical"
+                android:padding="16dp">
+
+                <TextView
+                    android:id="@+id/tvLoggedUser"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:textStyle="bold"/>
+            </LinearLayout>
+
+        </LinearLayout>
     </LinearLayout>
 </ScrollView>

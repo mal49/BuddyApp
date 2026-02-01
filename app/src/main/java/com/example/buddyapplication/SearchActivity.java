@@ -3,6 +3,7 @@ package com.example.buddyapplication;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -26,8 +27,8 @@ public class SearchActivity extends AppCompatActivity {
     DatabaseHelper db;
 
     ArrayList<friend> friendResults = new ArrayList<>();
-    ArrayList<String> displayList = new ArrayList<>();
-    ArrayAdapter<String> adapter;
+
+    FriendAdapter adapter;
 
     ActivityResultLauncher<Intent> editFriendLauncher;
 
@@ -44,7 +45,7 @@ public class SearchActivity extends AppCompatActivity {
 
         db = new DatabaseHelper(this);
 
-        adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, displayList);
+        adapter = new FriendAdapter(this, friendResults);
         listResults.setAdapter(adapter);
 
         loadAllFriends();
@@ -71,19 +72,12 @@ public class SearchActivity extends AppCompatActivity {
     private void doSearch() {
         String keyword = etKeyword.getText().toString().trim();
 
+        friendResults.clear();
+
         if (keyword.isEmpty()) {
-            loadAllFriends();
-            return;
-        }
-
-        friendResults = db.searchFriends(keyword);
-
-        displayList.clear();
-        for (friend f : friendResults) {
-            // Simple one-line display
-            displayList.add(
-                    f.name + " | " + f.phone + " | " + f.gender + " | " + f.addr4
-            );
+            friendResults.addAll(db.getAllFriend());
+        } else {
+            friendResults.addAll(db.searchFriends(keyword));
         }
 
         adapter.notifyDataSetChanged();
@@ -91,47 +85,48 @@ public class SearchActivity extends AppCompatActivity {
     }
 
     private void loadAllFriends() {
-        friendResults = db.getAllFriend();
-
-        displayList.clear();
-        for (friend f : friendResults) {
-            displayList.add(
-                    f.name + " | " + f.phone + " | " + f.gender + " | " + f.addr4
-            );
-        }
-
+        friendResults.clear();
+        friendResults.addAll(db.getAllFriend());
         adapter.notifyDataSetChanged();
         tvResultCount.setText("Results: " + friendResults.size());
     }
 
     private void showFriendDetails(friend f) {
-        String address =
-                f.addr1 + "\n" +
-                        f.addr2 + "\n" +
-                        f.addr3 + "\n" +
-                        f.addr4;
+        AlertDialog dialog = new AlertDialog.Builder(this).create();
+        View view = getLayoutInflater().inflate(R.layout.dialog_friend_details, null);
+        dialog.setView(view);
 
-        String msg =
-                "Name: " + f.name + "\n" +
-                        "Gender: " + f.gender + "\n" +
-                        "Phone: " + f.phone + "\n" +
-                        "Email: " + f.email + "\n\n" +
-                        "Address:\n" + address;
-//                        "State: " + f.state;
+        TextView tvName = view.findViewById(R.id.tvName);
+        TextView tvGender = view.findViewById(R.id.tvGender);
+        TextView tvPhone = view.findViewById(R.id.tvPhone);
+        TextView tvEmail = view.findViewById(R.id.tvEmail);
+        TextView tvAddress = view.findViewById(R.id.tvAddress);
 
-        new AlertDialog.Builder(this)
-                .setTitle("Friend Details")
-                .setMessage(msg)
-                .setPositiveButton("EDIT", (dialog, which) -> {
-                    Intent intent = new Intent(SearchActivity.this, EditFriend.class);
-                    intent.putExtra("friend_id", f.id);
-                    editFriendLauncher.launch(intent);
-                })
-                .setNeutralButton("DELETE", (dialog, which) -> {
-                    confirmDeleteFriend(f);
-                })
-                .setNegativeButton("OK", null)
-                .show();
+        tvName.setText("Full Name\n" + f.name);
+        tvGender.setText("Gender\n" + f.gender);
+        tvPhone.setText("Phone\n" + f.phone);
+        tvEmail.setText("Email Address\n" + f.email);
+
+        String address = f.addr1 + ", " + f.addr2 + "\n" +
+                         f.addr3 + " " + f.addr4;
+
+        tvAddress.setText("Residental Address\n" + address);
+
+        view.findViewById(R.id.btnEdit).setOnClickListener(v -> {
+           dialog.dismiss();
+           Intent intent = new Intent(this, EditFriend.class);
+           intent.putExtra("friend_id", f.id);
+           editFriendLauncher.launch(intent);
+        });
+
+        view.findViewById(R.id.btnDelete).setOnClickListener(v -> {
+            dialog.dismiss();
+            confirmDeleteFriend(f);
+        });
+
+        view.findViewById(R.id.btnOk).setOnClickListener(v -> dialog.dismiss());
+
+        dialog.show();
     }
     private void confirmDeleteFriend(friend f) {
         new AlertDialog.Builder(this)

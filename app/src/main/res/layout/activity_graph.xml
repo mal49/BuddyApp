@@ -29,4 +29,16 @@
         android:id="@+id/pie_chart"
         />
 
+    <Button
+        android:id="@+id/btnBack"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:text="Back to Dashboard"
+        android:layout_gravity="center"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/button_primary"
+        app:backgroundTint="@null"
+        android:textColor="#FFFFFF"
+        />
+
 </LinearLayout>

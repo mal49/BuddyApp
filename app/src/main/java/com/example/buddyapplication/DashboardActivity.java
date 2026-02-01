@@ -3,6 +3,7 @@ package com.example.buddyapplication;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -10,6 +11,8 @@ import androidx.appcompat.app.AppCompatActivity;
 public class DashboardActivity extends AppCompatActivity {
 
     Button btnSearchFriend, addFriend, btnComingSoonReport, btnLogout;
+    TextView tvLoggedUser;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,6 +23,13 @@ public class DashboardActivity extends AppCompatActivity {
         addFriend = findViewById(R.id.btnManage);
         btnComingSoonReport = findViewById(R.id.btnReport);
         btnLogout = findViewById(R.id.btnLogout);
+        tvLoggedUser = findViewById(R.id.tvLoggedUser);
+
+        String username = getIntent().getStringExtra("username");
+
+        if (username != null) {
+            tvLoggedUser.setText("Logged in as " + username);
+        }
 
         btnSearchFriend.setOnClickListener(v ->
                 startActivity(new Intent(this, SearchActivity.class))

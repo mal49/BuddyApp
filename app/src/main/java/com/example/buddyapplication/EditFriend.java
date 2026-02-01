@@ -10,6 +10,8 @@ import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
@@ -26,6 +28,9 @@ public class EditFriend extends AppCompatActivity {
     DatabaseHelper db;
     int friendId;
 
+    private Uri selectedPhotoUri = null;
+    private ActivityResultLauncher<String> imagePickerLauncher;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,9 +45,23 @@ public class EditFriend extends AppCompatActivity {
             return;
         }
 
+        imagePickerLauncher = registerForActivityResult(
+                new ActivityResultContracts.GetContent(),
+                uri -> {
+                    if (uri != null) {
+                        selectedPhotoUri = uri;
+                        imgProfile.setImageURI(uri);
+                    }
+                }
+        );
+
         initViews();
         loadFriend();
         setupButtons();
+
+        imgProfile.setOnClickListener(v -> {
+            imagePickerLauncher.launch("image/*");
+        });
     }
 
     private void initViews(){
@@ -89,6 +108,7 @@ public class EditFriend extends AppCompatActivity {
 
         if (f.photo_uri != null) {
             imgProfile.setImageURI(Uri.parse(f.photo_uri));
+            selectedPhotoUri = Uri.parse(f.photo_uri);
         } else {
             imgProfile.setImageResource(R.drawable.default_profile);
         }
@@ -127,6 +147,10 @@ public class EditFriend extends AppCompatActivity {
         f.addr3 = etAddr3.getText().toString().trim();
         f.addr4 = etAddr4.getText().toString().trim();
 //        f.state = etState.getText().toString().trim();
+
+        if (selectedPhotoUri != null) {
+            f.photo_uri = selectedPhotoUri.toString();
+        }
 
         if (db.updateFriend(f)) {
             Toast.makeText(this, "Friend updated", Toast.LENGTH_SHORT).show();

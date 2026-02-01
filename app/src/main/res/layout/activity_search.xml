@@ -1,58 +1,96 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="18dp">
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Search Friend"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        android:layout_marginBottom="10dp"/>
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="#FFFFFF">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="vertical"
+        android:padding="24dp">
 
-        <EditText
-            android:id="@+id/etKeyword"
-            android:layout_width="0dp"
+        <TextView
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:hint="Name / Phone"
-            android:inputType="text"/>
+            android:layout_width="wrap_content"
+            android:text="Search Friend"
+            android:textSize="32sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="20dp"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:background="@drawable/search_box_bg"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+
+            <EditText
+                android:id="@+id/etKeyword"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="Name / Phone"
+                android:background="@null"/>
+
+            <Button
+                android:id="@+id/btnSearch"
+                android:layout_width="110dp"
+                android:layout_height="48dp"
+                android:text="Search"
+                android:textColor="#FFFFFF"
+                android:background="@drawable/button_primary"
+                app:backgroundTint="@null"/>
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tvResultCount"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:text="Results: 0"
+            android:textSize="14sp"
+            android:layout_marginTop="18dp"
+            android:layout_marginBottom="8dp"/>
+
+        <ListView
+            android:id="@+id/listResults"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:divider="@android:color/transparent"
+            android:dividerHeight="10dp"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:layout_marginTop="40dp">
+
+            <ImageView
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:src="@android:drawable/ic_menu_search"
+                app:tint="#C4C4C4"/>
+
+            <TextView
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:text="Enter a name or phone number to find more friends."
+                android:textColor="#9E9E9E"
+                android:gravity="center"
+                android:layout_marginTop="12dp"/>
+        </LinearLayout>
 
         <Button
-            android:id="@+id/btnSearch"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Search"
-            android:layout_marginStart="10dp"/>
+            android:id="@+id/btnBack"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:text="Back to Dashboard"
+            android:textColor="#FFFFFF"
+            android:layout_marginTop="40dp"
+            android:background="@drawable/button_primary"
+            app:backgroundTint="@null"/>
+
     </LinearLayout>
-
-    <TextView
-        android:id="@+id/tvResultCount"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Results: 0"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="6dp"/>
-
-    <ListView
-        android:id="@+id/listResults"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"/>
-
-    <Button
-        android:id="@+id/btnBack"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Back to Dashboard"
-        android:layout_marginTop="10dp"/>
-
-</LinearLayout>
+</ScrollView>

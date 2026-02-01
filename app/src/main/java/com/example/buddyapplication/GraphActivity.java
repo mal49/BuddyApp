@@ -2,6 +2,7 @@ package com.example.buddyapplication;
 
 import android.graphics.Color;
 import android.os.Bundle;
+import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -23,6 +24,8 @@ public class GraphActivity extends AppCompatActivity {
     BarChart barChart;   // Gender chart
     PieChart pieChart;   // State chart
     DatabaseHelper db;
+    Button btnBack;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,8 +34,11 @@ public class GraphActivity extends AppCompatActivity {
 
         barChart = findViewById(R.id.bar_chart);
         pieChart = findViewById(R.id.pie_chart);
+        btnBack = findViewById(R.id.btnBack);
 
         db = new DatabaseHelper(this);
+
+        btnBack.setOnClickListener(v -> finish());
 
         loadGenderChart();
         loadStateChart();

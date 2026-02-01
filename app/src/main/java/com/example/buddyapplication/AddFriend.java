@@ -25,7 +25,7 @@ public class AddFriend extends AppCompatActivity {
 
     private DatabaseHelper dbHelper;
     private Uri selectedPhotoUri = null;
-    private ActivityResultLauncher<String> imagePickerLauncher;
+    private ActivityResultLauncher<String[]> imagePickerLauncher;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,25 +35,20 @@ public class AddFriend extends AppCompatActivity {
         dbHelper = new DatabaseHelper(this);
 
         // Initialize image picker launcher
-        imagePickerLauncher = registerForActivityResult(
-                new ActivityResultContracts.GetContent(),
-                uri -> {
-                    if (uri != null) {
-                        selectedPhotoUri = uri;
-                        imgProfile.setImageURI(uri);
+            imagePickerLauncher = registerForActivityResult(
+                    new ActivityResultContracts.OpenDocument(),
+                    uri -> {
+                        if (uri != null) {
+                            selectedPhotoUri = uri;
+                            imgProfile.setImageURI(uri);
 
-                        // Take persistent permission
-                        try {
                             getContentResolver().takePersistableUriPermission(
                                     uri,
                                     Intent.FLAG_GRANT_READ_URI_PERMISSION
                             );
-                        } catch (SecurityException e) {
-                            e.printStackTrace();
                         }
                     }
-                }
-        );
+            );
 
         initializeViews();
         setupListeners();
@@ -93,7 +88,7 @@ public class AddFriend extends AppCompatActivity {
                     .setTitle("Profile Photo")
                     .setItems(options, (dialog, which) -> {
                         if (which == 0) {
-                            imagePickerLauncher.launch("image/*");
+                            imagePickerLauncher.launch(new String[]{"image/*"});
                         } else {
                             dialog.dismiss();
                         }
@@ -105,7 +100,7 @@ public class AddFriend extends AppCompatActivity {
                     .setTitle("Profile Photo")
                     .setItems(options, (dialog, which) -> {
                         if (which == 0) {
-                            imagePickerLauncher.launch("image/*");
+                            imagePickerLauncher.launch(new String[]{"image/*"});
                         } else if (which == 1) {
                             deletePhoto();
                         } else {
