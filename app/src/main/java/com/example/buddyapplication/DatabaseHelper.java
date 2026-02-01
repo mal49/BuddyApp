@@ -177,6 +177,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 f.addr2 = c.getString(6);
                 f.addr3 = c.getString(7);
                 f.addr4 = c.getString(8);
+                f.photo_uri = c.getString(9);
 //                f.state = c.getString(9);
 
                 list.add(f);
@@ -231,6 +232,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 f.addr2 = c.getString(6);
                 f.addr3 = c.getString(7);
                 f.addr4 = c.getString(8);
+                f.photo_uri = c.getString(9);
 //                f.state = c.getString(9);
 
                 list.add(f);
